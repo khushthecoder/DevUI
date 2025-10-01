@@ -1,5 +1,6 @@
 name: PR Build & Badge
-
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 on:
   pull_request:
     types: [opened, reopened, synchronize]
