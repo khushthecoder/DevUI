@@ -1,103 +1,153 @@
-import Image from "next/image";
+"use client"
+import { useState } from "react";
+import { ComponentCard } from "@/components/ComponentCard";
+import { componentsData } from "@/data/components";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Github, Search, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function Home() {
+const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = Array.from(new Set(componentsData.map(c => c.category).filter(Boolean)));
+
+  const filteredComponents = componentsData.filter(component => {
+    const matchesSearch = component.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      component.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || component.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-gradient-primary opacity-5" />
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-glow" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-glow" style={{ animationDelay: '1s' }} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+        <div className="container mx-auto px-4 py-24 relative z-10">
+          <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Open Source • Hacktoberfest 2025</span>
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold">
+              DevUI Components
+            </h1>
+
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Beautiful, accessible, and developer-friendly React components built with shadcn/ui.
+              Copy, paste, and customize to build amazing UIs.
+            </p>
+
+            <div className="flex items-center justify-center gap-4">
+              <Link href={""}>
+                <Button size="lg" className="bg-primary hover:opacity-90 transition-opacity">
+                  <Github className="mr-2 h-5 w-5" />
+                  Star on GitHub
+                </Button>
+              </Link>
+              <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/5">
+                Browse Components
+              </Button>
+            </div>
+
+            <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+              <span>{componentsData.length}+ Components</span>
+              <span>•</span>
+              <span>TypeScript</span>
+              <span>•</span>
+              <span>Fully Responsive</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Search and Filters */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto space-y-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search components..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-12 bg-card/50 backdrop-blur-sm border-border"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Badge
+              variant={selectedCategory === null ? "default" : "outline"}
+              className="cursor-pointer hover:bg-primary/80 transition-colors"
+              onClick={() => setSelectedCategory(null)}
+            >
+              All
+            </Badge>
+            {categories.map(category => (
+              <Badge
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                className="cursor-pointer hover:bg-primary/80 transition-colors"
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Components Grid */}
+      <section className="container mx-auto px-4 pb-24">
+        <div className="max-w-6xl mx-auto">
+          {filteredComponents.length > 0 ? (
+            <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+              {filteredComponents.map((component, index) => (
+                <div
+                  key={component.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <ComponentCard {...component} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No components found matching your search.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card/30 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-muted-foreground">
+              Built with ❤️ for Hacktoberfest 2025
+            </div>
+            <div className="flex items-center gap-4">
+              <Link href={""}>
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                  <Github className="h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
-}
+};
+
+export default Index;
