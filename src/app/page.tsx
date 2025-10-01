@@ -48,7 +48,7 @@ const Index = () => {
             </p>
 
             <div className="flex items-center justify-center gap-4">
-              <Link href={""}>
+              <Link href={"https://github.com/fahimahammed/DevUI"}>
                 <Button size="lg" className="bg-primary hover:opacity-90 transition-opacity">
                   <Github className="mr-2 h-5 w-5" />
                   Star on GitHub
@@ -137,7 +137,7 @@ const Index = () => {
               Built with ❤️ for Hacktoberfest 2025
             </div>
             <div className="flex items-center gap-4">
-              <Link href={""}>
+              <Link href={"https://github.com/fahimahammed"}>
                 <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                   <Github className="h-5 w-5" />
                 </Button>
