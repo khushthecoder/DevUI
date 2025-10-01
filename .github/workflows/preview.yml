@@ -8,7 +8,7 @@ env:
 on:
   pull_request:
     branches:
-      - '**'  # Trigger on all PRs
+      - '**' # Trigger on all PRs
 
 jobs:
   vercel-preview:
@@ -26,4 +26,15 @@ jobs:
         run: NEXT_PUBLIC_VERCEL_ENV=preview vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Preview to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        id: vercel_deploy
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --confirm)
+          echo "preview_url=$url" >> $GITHUB_OUTPUT
+
+      - name: Comment Preview URL on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: vercel-preview
+          message: |
+            🚀 Vercel Preview Deployment Ready!
+            🔗 [View Preview Deployment](${{ steps.vercel_deploy.outputs.preview_url }})
