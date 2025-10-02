@@ -2,17 +2,23 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+interface CardProps extends React.ComponentProps<'div'> {
+  gradient?: boolean;
+  gradientColors?: string;
+}
+
+function Card({ className, gradient = false, gradientColors, ...props }: CardProps) {
+  const gradientClass = gradient ? `bg-gradient-to-r ${gradientColors || 'from-pink-500 via-purple-500 to-indigo-500'} text-white` : 'bg-card text-card-foreground';
   return (
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm transition-shadow transition-colors duration-300 hover:shadow-md hover:border-primary/30",
+        `${gradientClass} flex flex-col gap-6 rounded-xl border py-6 shadow-sm transition-shadow transition-colors duration-300 hover:shadow-md hover:border-primary/30`,
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {

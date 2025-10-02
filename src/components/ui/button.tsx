@@ -19,6 +19,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        gradient: "", // handled below
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -32,7 +33,13 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
+
+interface ButtonProps extends React.ComponentProps<"button">, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  loading?: boolean;
+  gradientColors?: string;
+}
 
 function Button({
   className,
@@ -40,19 +47,17 @@ function Button({
   size,
   asChild = false,
   loading = false,
+  gradientColors,
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-    loading?: boolean
-  }) {
-  const Comp = asChild ? Slot : "button"
-
+}: ButtonProps) {
+  const Comp = asChild ? Slot : "button";
+  const gradientClass = variant === 'gradient' ? `bg-gradient-to-r ${gradientColors || 'from-pink-500 via-purple-500 to-indigo-500'} text-white` : '';
   return (
     <Comp
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size, className }),
+        gradientClass,
         loading && "relative aria-busy:opacity-90"
       )}
       aria-busy={loading || undefined}
@@ -77,7 +82,8 @@ function Button({
         (props as any).children
       )}
     </Comp>
-  )
+  );
 }
+// ...existing code...
 
 export { Button, buttonVariants }
