@@ -1,4 +1,4 @@
-name: Deploy Preview to Vercel (v2)
+name: Deploy Preview to Vercel
 
 on:
   pull_request:
@@ -14,11 +14,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest pnpm
 
-      # Debug step (optional, remove later)
+      # 🔎 Debug (optional) - remove later once secrets are verified
       - name: Debug Secrets
         run: |
-          echo "ORG_ID=$VERCEL_ORG_ID"
-          echo "PROJECT_ID=$VERCEL_PROJECT_ID"
+          echo "ORG_ID=${VERCEL_ORG_ID}"
+          echo "PROJECT_ID=${VERCEL_PROJECT_ID}"
           echo "TOKEN length: ${#VERCEL_TOKEN}"
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -54,4 +54,16 @@ jobs:
             const previewUrl = process.env.preview_url;
             if (previewUrl) {
               github.rest.issues.createComment({
-                issue_number: context._
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `🚀 Preview deployed: [${previewUrl}](${previewUrl})`
+              });
+            } else {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "⚠️ Preview deployment failed. Please check workflow logs."
+              });
+            }
