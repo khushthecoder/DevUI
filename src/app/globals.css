@@ -226,7 +226,7 @@
     overflow: hidden;
   }
 
-  <<<<<<< HEAD .btn-glow::before {
+  .btn-glow::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -293,7 +293,7 @@
   }
 }
 
-=======.shine-effect::before {
+.shine-effect::before {
   content: '';
   position: absolute;
   top: 0;
@@ -411,6 +411,3 @@ input[type="text"]:focus,
 input[type="search"]:focus {
   @apply shadow-sm shadow-primary/20;
 }
-}
-
->>>>>>>stage
