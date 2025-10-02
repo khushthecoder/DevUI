@@ -1,6 +1,6 @@
-'use client';
 import React from 'react';
 import { CodeBlock } from '../../components/CodeBlock';
+import Skeleton from '@/components/ui/Skeleton';
 
 const DocsPage = () => {
   return (
@@ -8,43 +8,31 @@ const DocsPage = () => {
       <section id="installation">
         <h1 className="text-4xl font-bold border-b pb-2">Installation</h1>
         <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
-          Follow these steps to get the DevUI project running on your local machine for development.
+          Follow these steps to get the DevUI project running on your local machine.
         </p>
-
-        <h2 className="text-2xl font-semibold mt-8">1. Fork the Repository</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          First, navigate to the main repository page on GitHub and click the 'Fork' button in the top-right corner. This will create a copy of the project under your own GitHub account.
-        </p>
-
-        <h2 className="text-2xl font-semibold mt-8">2. Clone Your Fork</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Now, clone the forked repository to your local machine. Replace `[your-username]` with your actual GitHub username.
-        </p>
-        <CodeBlock code="git clone https://github.com/[your-username]/DevUI.git" />
-
-        <h2 className="text-2xl font-semibold mt-8">3. Navigate to the Directory</h2>
-        <CodeBlock code="cd DevUI" />
-        
-        <h2 className="text-2xl font-semibold mt-8">4. Install Dependencies</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Install all the necessary packages using your preferred package manager.
-        </p>
-        <CodeBlock code="npm install" />
+        <CodeBlock code="git clone https://github.com/[your-username]/DevUI.git" language="bash" />
       </section>
+      
       <section id="project-setup" className="mt-12">
         <h1 className="text-4xl font-bold border-b pb-2">Project Setup</h1>
         <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
-          After installation, you can start the development server.
+          Start the development server.
         </p>
+        <CodeBlock code="npm run dev" language="bash" />
+      </section>
 
-        <h2 className="text-2xl font-semibold mt-8">Running the Development Server</h2>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          To start the local development server, run the following command:
+      <section id="usage-examples" className="mt-12">
+        <h1 className="text-4xl font-bold border-b pb-2">Usage Examples: Skeletons</h1>
+        <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
+          Example of a loading card placeholder.
         </p>
-        <CodeBlock code="npm run dev" />
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          This will start the application, usually on `http://localhost:3000`. You can now view the project in your browser.
-        </p>
+        <div className="mt-6 flex flex-col space-y-3 rounded-md border p-4">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
       </section>
     </div>
   );

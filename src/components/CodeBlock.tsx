@@ -1,65 +1,67 @@
-import { useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Check, Copy } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+'use client';
+
+import React, { useState } from 'react';
+import { Highlight, type PrismTheme } from 'prism-react-renderer';
+import { Check, Copy } from 'lucide-react';
+
+const customTheme: PrismTheme = {
+  // ... (hamara custom theme object jaisa pehle tha waisa hi rahega)
+  plain: { color: '#F8F8F2', backgroundColor: '#282A36' },
+  styles: [
+    { types: ['prolog', 'doctype', 'cdata', 'comment'], style: { color: '#6272A4' } },
+    { types: ['punctuation'], style: { color: '#F8F8F2' } },
+    { types: ['property', 'tag', 'boolean', 'number', 'constant', 'symbol', 'deleted'], style: { color: '#BD93F9' } },
+    { types: ['selector', 'attr-name', 'string', 'char', 'builtin', 'inserted'], style: { color: '#50FA7B' } },
+    { types: ['operator', 'entity', 'url', 'variable'], style: { color: '#F8F8F2' } },
+    { types: ['atrule', 'attr-value', 'keyword'], style: { color: '#FF79C6' } },
+    { types: ['function', 'class-name'], style: { color: '#8BE9FD' } },
+    { types: ['regex', 'important'], style: { color: '#FFB86C' } },
+  ],
+};
 
 interface CodeBlockProps {
-    code: string;
-    language?: string;
-    showLineNumbers?: boolean;
+  code: string;
+  language?: string;
 }
 
-export const CodeBlock = ({ code, language = "tsx", showLineNumbers = true }: CodeBlockProps) => {
-    const [copied, setCopied] = useState(false);
+export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'jsx' }) => {
+  const [isCopied, setIsCopied] = useState(false);
 
-    const handleCopy = async () => {
-        await navigator.clipboard.writeText(code);
-        setCopied(true);
-        toast.success("Code copied to clipboard!");
-        setTimeout(() => setCopied(false), 2000);
-    };
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code.trim());
+    setIsCopied(true);
+    setTimeout(() => { setIsCopied(false); }, 2000);
+  };
 
-    return (
-        <div className="relative rounded-lg overflow-hidden border border-border bg-secondary/50 backdrop-blur-sm">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-secondary/80">
-                <span className="text-sm font-mono text-muted-foreground">{language}</span>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleCopy}
-                    className="h-8 px-2 hover:bg-accent/50"
-                >
-                    {copied ? (
-                        <>
-                            <Check className="h-4 w-4 mr-1" />
-                            <span className="text-xs">Copied!</span>
-                        </>
-                    ) : (
-                        <>
-                            <Copy className="h-4 w-4 mr-1" />
-                            <span className="text-xs">Copy</span>
-                        </>
-                    )}
-                </Button>
+  return (
+    <Highlight
+      theme={customTheme}
+      code={code.trim()}
+      language={language}
+    >
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <pre
+          className={`${className} relative p-4 rounded-md overflow-x-auto text-sm my-4`}
+          style={style}
+        >
+          <button
+            onClick={handleCopy}
+            className="absolute top-2 right-2 p-1.5 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            aria-label="Copy code to clipboard"
+          >
+            {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-300" />}
+          </button>
+          {tokens.map((line, i) => (
+            // Yahan se key={i} hata diya
+            <div {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                // Yahan se key={key} hata diya
+                <span {...getTokenProps({ token, key })} />
+              ))}
             </div>
-            <div className="overflow-x-auto bg-primary">
-                <SyntaxHighlighter
-                    language={language}
-                    style={vscDarkPlus}
-                    showLineNumbers={showLineNumbers}
-                    customStyle={{
-                        margin: 0,
-                        padding: "1rem",
-                        background: "transparent",
-                        fontSize: "0.875rem",
-                    }}
-                    wrapLongLines
-                >
-                    {code}
-                </SyntaxHighlighter>
-            </div>
-        </div>
-    );
+          ))}
+        </pre>
+      )}
+    </Highlight>
+  );
 };
