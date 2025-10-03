@@ -73,7 +73,6 @@ import { PlusIcon, HeartIcon, MessageCircleIcon } from "lucide-react";
 import { SliderDemo } from "@/components/ui/sliderDemo";
 
 
-
 export const componentsData = [
   {
     id: "button",
@@ -182,7 +181,7 @@ export function SwitchDemo() {
       "An input where the user selects a value from within a given range.",
     category: "Form",
     // FIX: Using the separate functional component <SliderDemo />
-    preview: <SliderDemo />, 
+    preview: <SliderDemo />,
 
     // Code snippet reflecting the correct controlled usage for users
     code: `import { Slider } from "@/components/ui/slider"
@@ -528,7 +527,7 @@ export function DialogDemo() {
     </Dialog>
   )
 }`,
-    },
+  },
   {
     id: "progress",
     title: "Progress",

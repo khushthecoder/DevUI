@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // In a real project, this would be its own file with syntax highlighting (e.g., PrismJS or Shiki).
 import { Eye, Code2, Info, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Skeleton} from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 import { CodeBlock } from "@/components/CodeBlock";
 
@@ -83,7 +83,7 @@ export const ComponentCard = ({
                                     {renderTitle()}
                                 </h3>
                             )}
-                            
+
                             {/* Category Badge */}
                             {!loading && category && (
                                 <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20">
