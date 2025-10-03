@@ -73,6 +73,7 @@ import { PlusIcon, HeartIcon, MessageCircleIcon } from "lucide-react";
 import { SliderDemo } from "@/components/ui/sliderDemo";
 
 
+
 export const componentsData = [
   {
     id: "button",
@@ -527,7 +528,7 @@ export function DialogDemo() {
     </Dialog>
   )
 }`,
-  },
+    },
   {
     id: "progress",
     title: "Progress",
@@ -760,6 +761,7 @@ export function ToastDemo() {
 } from '@/components/ui/sidebar';
 import { Home, Settings, User } from 'lucide-react';
 
+];
 const navigationItems: MenuItem[] = [
   {
     id: 'home',
