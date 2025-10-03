@@ -40,7 +40,7 @@ export const CodeBlock = ({
           lang: language,
           theme,
         });
-        
+
         // If line numbers are enabled, process the HTML to add line number structure
         if (showLineNumbers) {
           const processedHtml = addLineNumbersToHtml(html, lineCount);
@@ -65,17 +65,17 @@ export const CodeBlock = ({
     const codeMatch = html.match(/<code[^>]*>/);
     const preOpenTag = preMatch ? preMatch[0] : '<pre>';
     const codeOpenTag = codeMatch ? codeMatch[0] : '<code>';
-    
+
     // Extract the content between <code> and </code>
     const codeContent = html.match(/<code[^>]*>([\s\S]*?)<\/code>/)?.[1] || '';
     const lines = codeContent.split('\n');
-    
+
     // Wrap each line with line number data
     const numberedLines = lines.map((line, index) => {
       const lineNumber = index + 1;
       return `<span class="code-line" data-line-number="${lineNumber}">${line}</span>`;
     }).join('\n');
-    
+
     return `${preOpenTag}${codeOpenTag}${numberedLines}</code></pre>`;
   };
 
@@ -106,7 +106,7 @@ export const CodeBlock = ({
             {language}
           </span>
         </div>
-        
+
         <Button
           variant="ghost"
           size="sm"
@@ -126,16 +126,16 @@ export const CodeBlock = ({
           )}
         </Button>
       </div>
-      
+
       {/* Code content with Shiki highlighting and logical line numbers */}
-      <div 
+      <div
         className="overflow-x-auto text-sm leading-relaxed relative"
         style={{
           fontFamily: "'Fira Code', 'JetBrains Mono', Consolas, monospace",
         }}
       >
         {showLineNumbers && (
-          <div 
+          <div
             className="absolute left-0 top-0 flex flex-col py-4 px-2 text-right select-none pointer-events-none z-10"
             style={{
               width: `${Math.max(2.5, maxLineNumberWidth * 0.6 + 1)}rem`,
@@ -158,7 +158,7 @@ export const CodeBlock = ({
             ))}
           </div>
         )}
-        
+
         {highlightedCode ? (
           <div
             dangerouslySetInnerHTML={{ __html: highlightedCode }}
@@ -172,7 +172,7 @@ export const CodeBlock = ({
             }}
           />
         ) : (
-          <pre 
+          <pre
             className={`py-4 text-muted-foreground ${showLineNumbers ? 'pl-16' : 'px-4'}`}
             style={{
               marginLeft: showLineNumbers ? `${Math.max(2.5, maxLineNumberWidth * 0.6 + 1)}rem` : '0',
@@ -182,7 +182,7 @@ export const CodeBlock = ({
           </pre>
         )}
       </div>
-      
+
       {/* Subtle primary color accent at bottom */}
       <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
     </div>
