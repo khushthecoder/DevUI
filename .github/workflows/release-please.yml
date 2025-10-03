@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - stage
 
 permissions:
   contents: write
@@ -18,3 +18,5 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+          default-branch: main               
+          target-branch: main
