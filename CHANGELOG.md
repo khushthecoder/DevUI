@@ -23,5 +23,8 @@
 
 * Add Syntax Highlighting for Code Blocks [#6](https://github.com/fahimahammed/DevUI/issues/6) ([#61](https://github.com/fahimahammed/DevUI/issues/61)) ([16deed3](https://github.com/fahimahammed/DevUI/commit/16deed3a357765ea0a2d5a5bdbf154614070eb58))
 * conflict issue ([67e6913](https://github.com/fahimahammed/DevUI/commit/67e6913db58b5ea2c51e72ba218e15afbc667762))
+* fix merge conflict issue ([cfea695](https://github.com/fahimahammed/DevUI/commit/cfea6956d0209c217d4349048d4393f746f6ecea))
 * **home:** resolve slider visibility issue on home page ([#56](https://github.com/fahimahammed/DevUI/issues/56)) ([#86](https://github.com/fahimahammed/DevUI/issues/86)) ([6d0aa07](https://github.com/fahimahammed/DevUI/commit/6d0aa07bb0503d2916215d415a2ccf2ce727061b))
+* merge conflict ([4990ee9](https://github.com/fahimahammed/DevUI/commit/4990ee91c9a86ab5a153e5c17c283093bef921c6))
+* merge conflict fix ([a7cccc3](https://github.com/fahimahammed/DevUI/commit/a7cccc3a31bcd9589bd315abf84223ff6af85cc0))
 * sync code with prod  ([#142](https://github.com/fahimahammed/DevUI/issues/142)) ([9aa0849](https://github.com/fahimahammed/DevUI/commit/9aa0849e463740a458080dbc96c220568335c6ec))
