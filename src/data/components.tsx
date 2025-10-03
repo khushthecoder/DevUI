@@ -182,7 +182,7 @@ export function SwitchDemo() {
       "An input where the user selects a value from within a given range.",
     category: "Form",
     // FIX: Using the separate functional component <SliderDemo />
-    preview: <SliderDemo />, 
+    preview: <SliderDemo />,
 
     // Code snippet reflecting the correct controlled usage for users
     code: `import { Slider } from "@/components/ui/slider"
@@ -761,6 +761,7 @@ export function ToastDemo() {
 } from '@/components/ui/sidebar';
 import { Home, Settings, User } from 'lucide-react';
 
+];
 const navigationItems: MenuItem[] = [
   {
     id: 'home',
