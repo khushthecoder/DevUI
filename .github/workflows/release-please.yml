@@ -1,5 +1,8 @@
 on:
-  workflow_dispatch: 
+  push:
+    branches:
+      - stage     # stage এ push/merge হলে auto trigger হবে
+  workflow_dispatch:
 
 permissions:
   contents: write
