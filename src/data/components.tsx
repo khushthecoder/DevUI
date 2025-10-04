@@ -1081,12 +1081,12 @@ export function SonnerDemo() {
 }`,
   },
   {
-  id: "accordion",
-  title: "Accordion",
-  description: "A vertically stacked set of expandable panels that reveal hidden content.",
-  category: "Display",
-  preview: <Accordion/>,
-  code: `import Accordion from "@/components/ui/Accordion"
+    id: "accordion",
+    title: "Accordion",
+    description: "A vertically stacked set of expandable panels that reveal hidden content.",
+    category: "Display",
+    preview: <Accordion />,
+    code: `import Accordion from "@/components/ui/Accordion"
 
 import Accordion from "@/components/ui/Accordion"
 
@@ -1108,6 +1108,6 @@ export function AccordionDemo() {
 
   return <Accordion items={items} />
 }`,
-},
+  },
 
 ];
