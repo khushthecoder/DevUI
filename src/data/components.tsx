@@ -59,19 +59,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+
 import { FileUpload } from "@/components/ui/file-upload";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { FloatingActionButton } from "@/components/ui/floating-action-button";
-import { PlusIcon, HeartIcon, MessageCircleIcon } from "lucide-react";
 // REMOVED: import React, { useState } from "react";
 // ADDED: Import the component that now correctly encapsulates useState:
 import { SliderDemo } from "@/components/ui/sliderDemo";
-
+import Accordion from "@/components/ui/Accordion";
 
 
 export const componentsData = [
@@ -956,7 +949,8 @@ export function DrawerDemo() {
   {
     id: "file-upload",
     title: "File Upload",
-    description: "A versatile file upload component with drag & drop, progress tracking, and multiple variants.",
+    description:
+      "A versatile file upload component with drag & drop, progress tracking, and multiple variants.",
     category: "Form",
     preview: (
       <div className="w-full max-w-md space-y-4">
@@ -1029,4 +1023,92 @@ export function FileUploadDemo() {
   )
 }`,
   },
+  {
+    id: "sonner",
+    title: "Sonner",
+    description:
+      "A toast notification system for displaying brief messages to users.",
+    category: "Feedback",
+    preview: (
+      <div className="flex justify-center gap-4">
+        <Button
+          onClick={() => {
+            toast("Hi there, I am Sonner! 👋");
+          }}
+        >
+          Show Toast
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            toast.success("Success message!");
+          }}
+        >
+          Success
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            toast.error("Something went wrong");
+          }}
+        >
+          Error
+        </Button>
+      </div>
+    ),
+    code: `import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+
+export function SonnerDemo() {
+  return (
+    <div className="flex gap-4">
+      <Button onClick={() => toast("Simple notification")}>
+        Show Toast
+      </Button>
+      <Button
+        variant="secondary"
+        onClick={() => toast.success("Success message!")}
+      >
+        Success
+      </Button>
+      <Button
+        variant="destructive"
+        onClick={() => toast.error("Something went wrong")}
+      >
+        Error
+      </Button>
+    </div>
+  )
+}`,
+  },
+  {
+    id: "accordion",
+    title: "Accordion",
+    description: "A vertically stacked set of expandable panels that reveal hidden content.",
+    category: "Display",
+    preview: <Accordion />,
+    code: `import Accordion from "@/components/ui/Accordion"
+
+import Accordion from "@/components/ui/Accordion"
+
+export function AccordionDemo() {
+  const items = [
+    {
+      title: "✨ What is DevUI?",
+      content: "DevUI is a modern, open-source component library to build beautiful apps faster."
+    },
+    {
+      title: "🤝 Can I contribute?",
+      content: "Yes! Fork our GitHub repo, submit your PR, and join our awesome community."
+    },
+    {
+      title: "💜 Is it free?",
+      content: "Absolutely! DevUI is free under the MIT license. Use it anywhere without limits."
+    }
+  ]
+
+  return <Accordion items={items} />
+}`,
+  },
+
 ];
