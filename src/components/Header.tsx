@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; 
 import {
   Github,
   Menu,
@@ -15,41 +16,55 @@ import {
   BookOpen,
   Users,
   Star,
+  Search,
 } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+}
+
+const Header = ({ searchQuery, setSearchQuery }: HeaderProps) => { 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false); 
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Prevent hydration mismatch
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   const navigation = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Components", href: "#components", icon: Code2 },
     { name: "About", href: "/about", icon: Users },
-    { name: "Docs", href: "#docs", icon: BookOpen },
+    { name: "Components", href: "#components", icon: Code2 },
+    { name: "Docs", href: "/docs", icon: BookOpen },
     { name: "Analytics", href: "/analytics", icon: Star },
-
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Close mobile menu on navigation
   useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
 
-  // Close menu on Escape key
+  // Close menus on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsMenuOpen(false);
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+        setIsSearchOpen(false); 
+      }
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -59,23 +74,23 @@ const Header = () => {
 
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60 transition-shadow">
         <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-16 items-center justify-between gap-4">
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center space-x-2 group focus-ring rounded-md"
+              className="flex items-center space-x-2 group focus-ring rounded-md flex-shrink-0"
               aria-label="DevUI home"
             >
               <div className="relative">
                 <Code2 className="h-8 w-8 text-primary transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" />
                 <div className="absolute -inset-1 rounded-full bg-primary/20 blur opacity-0 group-hover:opacity-100 transition-all duration-300" />
               </div>
-              <span className="text-xl font-bold gradient-text">DevUI</span>
+              <span className="text-xl font-bold gradient-text hidden sm:inline">DevUI</span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Hide when search is open on small screens */}
             <nav
-              className="hidden md:flex items-center space-x-1"
+              className={`hidden md:flex items-center space-x-1 transition-opacity duration-300 ${isSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
               aria-label="Main navigation"
             >
               {navigation.map((item) => {
@@ -100,7 +115,33 @@ const Header = () => {
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-end space-x-2 flex-1">
+              {/* ✅ START: Animated Search Bar */}
+              <div className="relative flex items-center">
+                <Input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search components..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={`h-10 rounded-full border-2 border-transparent bg-muted/50 focus:border-primary focus:bg-transparent transition-all duration-300 ease-in-out ${
+                    isSearchOpen
+                      ? "w-48 sm:w-64 px-4 opacity-100"
+                      : "w-0 px-0 opacity-0"
+                  }`}
+                />
+                 <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  className="hover:bg-primary/10 rounded-full"
+                  aria-label="Toggle search bar"
+                >
+                  {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+                </Button>
+              </div>
+              {/* ✅ END: Animated Search Bar */}
+
               {/* Theme Toggle */}
               {mounted && (
                 <Button
@@ -109,7 +150,7 @@ const Header = () => {
                   onClick={() =>
                     setTheme(theme === "dark" ? "light" : "dark")
                   }
-                  className="relative hover:bg-primary/10 transition-all duration-200 focus-ring"
+                  className="relative hover:bg-primary/10 transition-all duration-200 focus-ring rounded-full"
                   aria-label={`Switch to ${
                     theme === "dark" ? "light" : "dark"
                   } mode`}
@@ -128,25 +169,10 @@ const Header = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hover:bg-primary/10 transition-all duration-200 focus-ring"
+                  className="hover:bg-primary/10 transition-all duration-200 focus-ring rounded-full"
                   aria-label="View on GitHub"
                 >
                   <Github className="h-5 w-5" />
-                </Button>
-              </Link>
-
-              {/* Star Button */}
-              <Link
-                href="https://github.com/fahimahammed/DevUI"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  size="sm"
-                  className="hidden sm:flex bg-primary hover:bg-primary/90 transition-all duration-200 focus-ring shine-effect"
-                >
-                  <Star className="h-4 w-4 mr-2" />
-                  Star
                 </Button>
               </Link>
 
@@ -154,7 +180,7 @@ const Header = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden hover:bg-primary/10 transition-all duration-200 focus-ring"
+                className="md:hidden hover:bg-primary/10 transition-all duration-200 focus-ring rounded-full"
                 onClick={toggleMenu}
                 aria-expanded={isMenuOpen}
                 aria-controls="mobile-menu"
@@ -170,6 +196,7 @@ const Header = () => {
           </div>
 
           {/* Mobile Navigation */}
+          {/* ... (Mobile navigation remains the same) ... */}
           {isMenuOpen && (
             <nav
               id="mobile-menu"
